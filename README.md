@@ -7,7 +7,7 @@ Make sure to have :
 ```bash
 sudo apt install libopenal-dev libvorbis-dev libflac-dev xorg-dev
 ```
-When cloning, make sure to use the --recursive flag, or : 
+When cloning, make sure to use the --recursive flag for the submodules under /lib, or do this after : 
 ```bash
 git submodule update --init
 ```
