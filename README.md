@@ -20,7 +20,12 @@ Run CMake in the root directory and cross your fingers!
 ```bash
 cmake .
 ```
+Build
 ```bash
 make
+```
+Run
+```bash
+./starter
 ```
 ![Sphere](screenshot.png)
