@@ -34,12 +34,12 @@ Run :
 The routine for adding new nodes is outlined from "gamelogic.cpp", under initGame(GLFWwindow* window) : 
 ```C++
     /**
-     * Create a shape(s). This allocates buffers and meshes.
+     * Create a shape(s). 
      */ 
     Shape * sphere = new Sphere(0.5f, 40, 40, true);
 
     /** 
-     * Initialize scene nodes. 
+     * Initialize scene nodes. This also allocates buffers and meshes, or texture buffers.
      * Add texture path in the last argument in GeometryNode(..) for texture generation. 
      */
     rootNode = new EmptyNode();
