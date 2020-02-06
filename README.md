@@ -20,11 +20,11 @@ Run CMake in the root directory and cross your fingers!
 ```bash
 cmake .
 ```
-Build
+Build :
 ```bash
 make
 ```
-Run
+Run :
 ```bash
 ./starter
 ```
