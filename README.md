@@ -69,5 +69,5 @@ uniform layout(location = 3) mat4 M;
 
 See utilities/glutils.cpp
 
-See also the mesh and shapes classes for how these buffers are created. 
+See also the mesh, scenenode and shapes classes for how these buffers are created. 
     
