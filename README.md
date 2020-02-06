@@ -43,7 +43,7 @@ The routine for adding new nodes is outlined from "gamelogic.cpp", under initGam
      * Add texture path in the last argument in GeometryNode(..) for texture generation. 
      */
     rootNode = new EmptyNode();
-    sphereNode = new GeometryNode(3, sphere, glm::vec3(0.0, 0.0, -1.0), ""); //Add texture in last arg if needed
+    sphereNode = new GeometryNode(3, sphere, glm::vec3(0.0, 0.0, -1.0), ""); 
     pointLightNode = new PointLightNode(6, pointLightPosition);
 
     /** 
