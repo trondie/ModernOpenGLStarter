@@ -59,7 +59,7 @@ To pass data to the shaders, note the first argument in GeometryNode() :
 ```C++
 GeometryNode(const int location, Shape * shape, const glm::vec3 position, std::string texturePath)
 ```
-This is for the layout location in the shaders.Correspondingly in simple.vert : 
+This is for the layout location in the shaders. Correspondingly in simple.vert - for example : 
 
 ```C++
 uniform layout(location = 3) mat4 M;
