@@ -1,6 +1,6 @@
 # OpenGL Starter
 
-Basic OpenGL setup for adding shapes and VAOs, and composing a scenegraph out of them for rendering.
+Basic OpenGL setup for adding shapes and VAOs, and for composing a scenegraph out of them for rendering.
 
 ## Installation
 
