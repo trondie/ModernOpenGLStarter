@@ -12,3 +12,4 @@ cmake .
 ```bash
 make
 ```
+![Sphere](screenshot.png)
