@@ -24,7 +24,7 @@
  * Basic scenenodes that are to be traversed
  */ 
 SceneNode * rootNode;
-SceneNode * sphereNode;
+GeometryNode * squareNode;
 SceneNode * pointLightNode;
 
 /**
@@ -88,22 +88,35 @@ void initGame(GLFWwindow* window) {
     /**
      * Create a shape(s)
      */ 
-    Shape * sphere = new Sphere(0.5f, 40, 40, true);
+    //Shape * sphere = new Sphere(0.5f, 40, 40, true);
+    Shape * square = new Square(1.5f, 1.5f);
 
     /** 
      * Initialize scene nodes 
      */
     rootNode = new EmptyNode();
-    sphereNode = new GeometryNode(3, sphere, glm::vec3(0.0, 0.0, -1.0), ""); //Add texture in last arg if needed
+    squareNode = new GeometryNode(3, square, glm::vec3(0.0, 0.0, -1.0), "./src/textures/brick-color.png"); 
+    // These two textures are not used
+    squareNode->addNormalmap("./src/textures/brick-normal.png");
+    squareNode->addHeightmap("./src/textures/brick-height.png");
+
     pointLightNode = new PointLightNode(6, pointLightPosition);
 
     /** 
      * Compose scenegraph (adding a sphere and a light to the root node)
-     * Continue to push back other nodes as needed. 
-     */
-    rootNode->getChildren().push_back(sphereNode);
+     * Continue to push back other nodes as needed 
+     * */
+    rootNode->getChildren().push_back(squareNode);
     rootNode->getChildren().push_back(pointLightNode); 
-     
+    glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, squareNode->getTextureId());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, squareNode->getHeightmapId());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, squareNode->getNormalmapId());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     /** 
      * Initialize perspective matrix and view matrix 
      */
@@ -179,10 +192,10 @@ void updateFrame(GLFWwindow* window) {
 
     } else {
 
-        sphereNode->changeRelativePosition(glm::vec3(
-            sphereNode->getPosition().x + translateX * translateGain,
-            sphereNode->getPosition().y + translateY * translateGain,
-            sphereNode->getPosition().z + translateZ * translateGain)
+        squareNode->changeRelativePosition(glm::vec3(
+            squareNode->getPosition().x + translateX * translateGain,
+            squareNode->getPosition().y + translateY * translateGain,
+            squareNode->getPosition().z + translateZ * translateGain)
         );
 
         totalElapsedTime += timeDelta;
@@ -207,7 +220,9 @@ void renderNode(SceneNode* node) {
             if(geometryNode->getVaoId() != -1) { 
                 glUniformMatrix4fv(geometryNode->getLocation(), 1, GL_FALSE, glm::value_ptr(geometryNode->currentTransformationMatrix));
                 glBindVertexArray(geometryNode->getVaoId());
-                glDrawElements(GL_TRIANGLES, geometryNode->getVaoIndexCount(), GL_UNSIGNED_INT, nullptr);        
+                glBindTextureUnit(10, geometryNode->getTextureId());
+                glDrawElements(GL_TRIANGLES, geometryNode->getVaoIndexCount(), GL_UNSIGNED_INT, nullptr); 
+                
             }  
             break;
         }

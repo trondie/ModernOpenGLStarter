@@ -2,14 +2,17 @@
 
 in layout(location = 0) vec3 position;
 in layout(location = 1) vec3 normal_in;
+in layout(location = 2) vec2 texCoord; 
+//layout (location = 11) in vec3 vertexTangent;
 
 uniform layout(location = 3) mat4 M;
 uniform layout(location = 4) mat4 V;
 uniform layout(location = 5) mat4 P;
 
 out mat4 MV; 
+out vec2 TexCoord;
 
-out layout(location = 0) vec3 normal_out;
+out layout(location = 20) vec3 normal_out;
 out vec3 vertexPosition;
 
 void main()
@@ -28,5 +31,8 @@ void main()
     // The position of the vertex in model-view space, for the fragment shader to calculate its vectors without the projection matrix 
     // (preserving angles, etc)
     vec4 vertexPosition4 = V * M  * vec4(position, 1.0f);
+
     vertexPosition = vec3(vertexPosition4) / vertexPosition4.w; 
+
+    TexCoord = texCoord;
 }

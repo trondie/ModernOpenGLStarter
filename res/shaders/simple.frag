@@ -1,12 +1,15 @@
 #version 430 core
 
-in layout(location = 0) vec3 normal;
+in layout(location = 20) vec3 normal;
 
 out vec4 color;
 
 uniform layout(location = 6) vec3 lightPosition1; 
 
-in vec3 vertexPosition; 
+in vec3 vertexPosition;
+
+in vec2 TexCoord;  
+layout(binding=10) uniform sampler2D Tex1;
 
 /**
  * Phong shading : I = i_a * k_a + SIGMA( (k_d*i_d * (L * N) + k_s * i_s * (R * V)^alpha ) )
@@ -30,10 +33,10 @@ vec4 contribution(vec3 lightSource) {
     // Specular contribution 
     float ks = 1.0; 
     float is = 1.0; 
-    vec3 reflectVec = reflect(-lightDirection, normalize(normal));     
+    vec3 reflectVec = reflect(-lightDirection, normalize(normal));    
     float specularAngle = max(dot(reflectVec,  normalize(-vertexPosition)), 0.0);
     float specular = pow(specularAngle, 10.0);
-
+   
     return vec4(ambient + diffuse * diffuseColor + specular * specularColor, 1.0f); 
 }
 
@@ -47,5 +50,6 @@ void main()
     // Contribution wrt phong shading
     vec4 colorp = I1 * contribution(lightPosition1);
 
-    color = materialColor * colorp;
+    color = texture(Tex1, TexCoord) * colorp;
+    //color = texture(Tex1, TexCoord);
 }

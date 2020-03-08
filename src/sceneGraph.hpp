@@ -127,6 +127,17 @@ private:
 	 */ 
 	int textureId, texureVaoId;
 
+	/**
+	 * Normal map IDs
+	 */
+	int normalmapId, normalmapVaoId;
+
+	/**
+	 * Height map IDs
+	 */ 
+	int heightmapId, heightmapVaoId;
+
+
 public:
 
 	GeometryNode() : SceneNode() { this->nodeType = GEOMETRY; }
@@ -141,8 +152,10 @@ public:
 
 		if (texturePath.length() > 0) {	
 			this->textureId = this->generateTextureId(texturePath); 
-			this->texureVaoId = generateTextureCoordinateVaoFromMesh(*shape->getMesh());
+			this->texureVaoId = generateTextureCoordinateBufferFromMesh(*shape->getMesh());
+			glBindTextureUnit(10, this->getTextureId());
 		}
+
 		this->position = position; 
 
 		// Default
@@ -161,6 +174,19 @@ public:
 	const int getTexureVaoId() const { return this->texureVaoId; }
 	const int getVaoIndexCount() const { return this->VAOIndexCount; }
 	const unsigned int getVaoId() const { return this->vertexArrayObjectID; }
+	void addNormalmap(const std::string path) {
+		//
+	}
+	void addHeightmap(const std::string path) {
+		if (path.length() > 0) {	
+			this->heightmapId = this->generateTextureId(path); 
+			glBindBuffer(GL_ARRAY_BUFFER, this->heightmapId);
+			glVertexAttribPointer(12, 2, GL_FLOAT, GL_FALSE, 0, 0);
+        	glEnableVertexAttribArray(2);  // Tex coord
+		}
+	}
+	const int getNormalmapId() const { return this->normalmapId; }
+	const int getHeightmapId() const { return this->heightmapId; }
 };
 
 class PointLightNode : public SceneNode {

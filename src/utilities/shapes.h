@@ -61,6 +61,73 @@ public:
         this->mesh.indices = {
             0,1,2,0,2,3
         };
+
+        glm::vec2 uv1(0.0, 1.0);
+        glm::vec2 uv2(0.0, 0.0);
+        glm::vec2 uv3(1.0, 0.0);
+        glm::vec2 uv4(1.0, 1.0);
+
+        glm::vec3 pos1(-1.0,  1.0, 0.0);
+        glm::vec3 pos2(-1.0, -1.0, 0.0);
+        glm::vec3 pos3( 1.0, -1.0, 0.0);
+        glm::vec3 pos4( 1.0,  1.0, 0.0);
+
+        glm::vec3 edge1 = pos2 - pos1;
+        glm::vec3 edge2 = pos3 - pos1;
+        glm::vec2 dUV1 = uv2 - uv1;
+        glm::vec2 dUV2 = uv3 - uv1; 
+
+        float f = 1.0f / (dUV1.x * dUV2.y - dUV2.x * dUV1.y);
+
+        /** 
+         * Tangent and bitangent for the first triangle draw 
+         */ 
+
+        glm::vec3 tangent1, tangent2;
+        tangent1.x = f * (dUV2.y * edge1.x - dUV1.y * edge2.x);
+        tangent1.y = f * (dUV2.y * edge1.y - dUV1.y * edge2.y);
+        tangent1.z = f * (dUV2.y * edge1.z - dUV1.y * edge2.z);
+        tangent1 = glm::normalize(tangent1);
+
+        glm::vec3 bitangent1, bitangent2;
+        bitangent1.x = f * (-dUV2.x * edge1.x + dUV1.x * edge2.x);
+        bitangent1.y = f * (-dUV2.x * edge1.y + dUV1.x * edge2.y);
+        bitangent1.z = f * (-dUV2.x * edge1.z + dUV1.x * edge2.z);
+        bitangent1 = glm::normalize(bitangent1); 
+
+        /**
+         *  Tangent and bitangent for the second triangle draw 
+         */ 
+
+        edge1 = pos3 - pos1;
+        edge2 = pos4 - pos1;
+        dUV1 = uv3 - uv1;
+        dUV2 = uv4 - uv1;
+
+        f = 1.0f / (dUV1.x * dUV2.y - dUV2.x * dUV1.y);
+
+        tangent2.x = f * (dUV2.y * edge1.x - dUV1.y * edge2.x);
+        tangent2.y = f * (dUV2.y * edge1.y - dUV1.y * edge2.y);
+        tangent2.z = f * (dUV2.y * edge1.z - dUV1.y * edge2.z);
+        tangent2 = glm::normalize(tangent2);
+
+        bitangent2.x = f * (-dUV2.x * edge1.x + dUV1.x * edge2.x);
+        bitangent2.y = f * (-dUV2.x * edge1.y + dUV1.x * edge2.y);
+        bitangent2.z = f * (-dUV2.x * edge1.z + dUV1.x * edge2.z);
+        bitangent2 = glm::normalize(bitangent2);
+
+        /**
+         * Put the tangents and bitangents in order
+         */ 
+        
+        this->mesh.tangents = {
+            tangent1, tangent1, tangent1, tangent2, tangent2, tangent2
+        };
+
+        this->mesh.bitangents = {
+            bitangent1, bitangent1, bitangent1, bitangent2, bitangent2, bitangent2
+        };
+
     }
 };
 
